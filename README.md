@@ -1,6 +1,6 @@
 # EE552 - Final Project: Java Checkers Project Plan
 
-## Milestone #1: Creation of checker piece class and board Set-up
+## Milestone #1: Creation of checker piece class and board set-up
 
 For our first milestone, we are planning on implementing a java class for the checkers pieces as well as creating and filling the board with new starting pieces whenever a new game is started.
 
