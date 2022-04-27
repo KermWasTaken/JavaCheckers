@@ -30,6 +30,7 @@ public class Checkers extends JPanel {
         }
 
         Piece SelectedPiece = null;
+        int teamTurn = 2;
         final int Width = 100;
         final int Height = 100;
         Piece[][] board = new Piece[8][8];
@@ -69,8 +70,8 @@ public class Checkers extends JPanel {
             }
             if(SelectedPiece != null){
                 g2D.setColor(Color.YELLOW);
-                g2D.drawRect(SelectedPiece.col*100, SelectedPiece.row*100, 99, 99);
-                g2D.drawRect(1 + SelectedPiece.col*100, 1 + SelectedPiece.row*100, 97, 97);
+                g2D.draw3DRect(SelectedPiece.col*100, SelectedPiece.row*100, 99, 99, true);
+                g2D.draw3DRect(1 + SelectedPiece.col*100, 1 + SelectedPiece.row*100, 97, 97, true);
             }
             
         }
@@ -106,19 +107,21 @@ public class Checkers extends JPanel {
         public void mousePressed(MouseEvent evt) {
             int row = (evt.getY()/100);
             int col = (evt.getX()/100);
-            if(board[row][col] != null){
+            if(board[row][col] != null && board[row][col].team == teamTurn){
                 squareClicked(row, col);
                 return;
             }
             if(SelectedPiece != null && SelectedPiece.team == 1){
                 if(board[row][col] == null && (row == SelectedPiece.row + 1) && (col == SelectedPiece.col - 1 || col == SelectedPiece.col + 1)){
                     move(SelectedPiece.row, SelectedPiece.col, row, col);
+                    teamTurn = 2;
                     return;
                 }
             }
             if(SelectedPiece != null && SelectedPiece.team == 2){
                 if(board[row][col] == null && (row == SelectedPiece.row - 1) && (col == SelectedPiece.col - 1 || col == SelectedPiece.col + 1)){
                     move(SelectedPiece.row, SelectedPiece.col, row, col);
+                    teamTurn = 1;
                     return;
                 }
             }
