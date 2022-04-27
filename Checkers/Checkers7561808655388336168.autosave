@@ -1,0 +1,94 @@
+Button[] buttons;
+
+void setup(){
+  buttons = new Button[64];
+  size(1000,1000);
+  board game = new board();
+  // HINT instead of drawing each button one by one, you can
+  //      write a loop and do some math to create your chessboard.
+  //      A chessboard has 64 squares - 8 rows and 8 columns
+}
+
+class board {
+  int width = 0;
+  int height = 0;
+  boolean colorPick = true;
+  board(){
+    for (int i = 0; i < 64; i++){
+      if (colorPick){
+          rect(width, height, 125, 125, #873e23);
+      }
+      else{
+          rect(width, height, 125, 125, #e28743);
+      }
+      colorPick = !colorPick;
+      width += 125;
+      if(width == 1000){
+        colorPick = !colorPick;
+        width = 0;
+        height += 125;
+      }
+    }
+  }
+}
+
+class Button {
+  float leftPos;
+  float topPos;
+  float btnWidth;
+  float btnHeight;
+  int rgb;
+  int rgbCircle;
+  boolean on = false;
+  
+  Button(float leftPos, float topPos, float btnWidth, float btnHeight, int rgb, int rgbCircle){
+    this.leftPos = leftPos;
+    this.topPos = topPos;
+    this.btnWidth = btnWidth;
+    this.btnHeight = btnHeight;
+    this.rgb = rgb;
+    this.rgbCircle = rgbCircle;
+  }
+  
+  boolean isClicked(){
+    return (mouseX > leftPos && mouseY > topPos && mouseX < leftPos + btnWidth &&
+    mouseY < topPos + btnHeight);
+  }
+  
+  void toggleOnOff(){
+    this.on = !this.on;
+  }
+  
+  void draw(){
+    // HINT this is how we changed the color of the button.
+    //      For the checkers example, you should use this
+    //      if statement to draw or not draw a filled in circle
+    // HINT think about how to keep track of the alternating colors
+    //      of each square.    
+    fill(rgb);
+    rect(leftPos, topPos, btnWidth, btnHeight);
+    if(on){
+      fill(rgbCircle);
+      circle(leftPos + btnWidth/2, topPos + btnHeight/2, btnWidth*0.66);
+    }
+    
+  }
+}
+
+int x = 10;
+int y = 10;
+
+void mousePressed(){
+  for(int i = 0; i < buttons.length; i++){
+    if(buttons[i].isClicked()){
+     buttons[i].toggleOnOff();
+    }
+  }
+}
+
+void draw(){
+  background(255);
+  for(int i = 0; i < buttons.length; i++){
+    buttons[i].draw();
+  }
+}
