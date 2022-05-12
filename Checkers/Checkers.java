@@ -60,7 +60,7 @@ public class Checkers extends JPanel {
                             g2D.fillOval(col * Width + 25, row * Height + 25, Width/2, Height/2);
                             if(board[row][col].isKing == true){
                                 g2D.setColor(Color.YELLOW);
-                                g2D.fillRect(col * Width + 35, row * Height + 35, Width/4, Height/4);
+                                g2D.fillRect(col * Width + 40, row * Height + 40, 20, 20);
                             }
                         }
                         else if (board[row][col].team == 2){
@@ -121,11 +121,11 @@ public class Checkers extends JPanel {
             int RedKingRow = 7;
             int BlackKingRow = 0;
             for(int col = 0; col < 8; col++){
-                if(board[RedKingRow][col] != null && board[RedKingRow][col].team == 1){
+                if(board[RedKingRow][col] != null && board[RedKingRow][col].team == 1 && board[RedKingRow][col].isKing == false){
                     board[RedKingRow][col].isKing = true;
-                    System.out.println("Red King Crowned");
+                    System.out.println("Black King Crowned");
                 }
-                else if(board[BlackKingRow][col] != null && board[BlackKingRow][col].team == 2){
+                else if(board[BlackKingRow][col] != null && board[BlackKingRow][col].team == 2 && board[RedKingRow][col].isKing == false){
                     board[BlackKingRow][col].isKing = true;
                     System.out.println("Red King Crowned");
                 }
@@ -163,7 +163,7 @@ public class Checkers extends JPanel {
                 squareClicked(row, col);
                 return;
             }
-            if(SelectedPiece.isKing == true){
+            if(board[row][col] != null && board[row][col].team == teamTurn &&  SelectedPiece.isKing == true){
                 if(SelectedPiece != null && SelectedPiece.team == 1){
                     if(board[row][col] == null && (row == SelectedPiece.row + 1) && (col == SelectedPiece.col - 1 || col == SelectedPiece.col + 1)){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
@@ -278,7 +278,7 @@ public class Checkers extends JPanel {
                         crownKing();
                         return;
                     }
-                    else if(board[row-1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col - 2)&& board[row - 1][col + 1].team == 2){
+                    else if(board[row-1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col - 2) && board[row - 1][col + 1].team == 2){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row - 1, col + 1);
                         teamTurn = 2;
