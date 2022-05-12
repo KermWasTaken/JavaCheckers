@@ -163,54 +163,154 @@ public class Checkers extends JPanel {
                 squareClicked(row, col);
                 return;
             }
-            if(SelectedPiece != null && SelectedPiece.team == 1){
-                if(board[row][col] == null && (row == SelectedPiece.row + 1) && (col == SelectedPiece.col - 1 || col == SelectedPiece.col + 1)){
-                    move(SelectedPiece.row, SelectedPiece.col, row, col);
-                    teamTurn = 2;
-                    gameOver();
-                    crownKing();
-                    return;
+            if(SelectedPiece.isKing == true){
+                if(SelectedPiece != null && SelectedPiece.team == 1){
+                    if(board[row][col] == null && (row == SelectedPiece.row + 1) && (col == SelectedPiece.col - 1 || col == SelectedPiece.col + 1)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        teamTurn = 2;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
+                    else if(board[row-1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col + 2)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        pieceJumped(row - 1, col - 1);
+                        teamTurn = 2;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
+                    else if(board[row-1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col - 2)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        pieceJumped(row - 1, col + 1);
+                        teamTurn = 2;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
+                    else if(board[row][col] == null && (row == SelectedPiece.row - 1) && (col == SelectedPiece.col - 1 || col == SelectedPiece.col + 1)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        teamTurn = 2;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
+                    else if(board[row+1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col + 2)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        pieceJumped(row + 1, col - 1);
+                        teamTurn = 2;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
+                    else if(board[row+1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col - 2)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        pieceJumped(row + 1, col + 1);
+                        teamTurn = 2;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
                 }
-                else if(board[row-1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col + 2)){
-                    move(SelectedPiece.row, SelectedPiece.col, row, col);
-                    pieceJumped(row - 1, col - 1);
-                    teamTurn = 2;
-                    gameOver();
-                    crownKing();
-                    return;
-                }
-                else if(board[row-1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col - 2)){
-                    move(SelectedPiece.row, SelectedPiece.col, row, col);
-                    pieceJumped(row - 1, col + 1);
-                    teamTurn = 2;
-                    gameOver();
-                    crownKing();
-                    return;
+                else if(SelectedPiece != null && SelectedPiece.team == 2){
+                    if(board[row][col] == null && (row == SelectedPiece.row + 1) && (col == SelectedPiece.col - 1 || col == SelectedPiece.col + 1)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        teamTurn = 1;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
+                    else if(board[row-1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col + 2)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        pieceJumped(row - 1, col - 1);
+                        teamTurn = 1;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
+                    else if(board[row-1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col - 2)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        pieceJumped(row - 1, col + 1);
+                        teamTurn = 1;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
+                    else if(board[row][col] == null && (row == SelectedPiece.row - 1) && (col == SelectedPiece.col - 1 || col == SelectedPiece.col + 1)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        teamTurn = 1;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
+                    else if(board[row+1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col + 2)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        pieceJumped(row + 1, col - 1);
+                        teamTurn = 1;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
+                    else if(board[row+1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col - 2)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        pieceJumped(row + 1, col + 1);
+                        teamTurn = 1;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
                 }
             }
-            if(SelectedPiece != null && SelectedPiece.team == 2){
-                if(board[row][col] == null && (row == SelectedPiece.row - 1) && (col == SelectedPiece.col - 1 || col == SelectedPiece.col + 1)){
-                    move(SelectedPiece.row, SelectedPiece.col, row, col);
-                    teamTurn = 1;
-                    gameOver();
-                    crownKing();
-                    return;
+            else{
+                if(SelectedPiece != null && SelectedPiece.team == 1){
+                    if(board[row][col] == null && (row == SelectedPiece.row + 1) && (col == SelectedPiece.col - 1 || col == SelectedPiece.col + 1)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        teamTurn = 2;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
+                    else if(board[row-1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col + 2)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        pieceJumped(row - 1, col - 1);
+                        teamTurn = 2;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
+                    else if(board[row-1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col - 2)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        pieceJumped(row - 1, col + 1);
+                        teamTurn = 2;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
                 }
-                else if(board[row+1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col + 2)){
-                    move(SelectedPiece.row, SelectedPiece.col, row, col);
-                    pieceJumped(row + 1, col - 1);
-                    teamTurn = 1;
-                    gameOver();
-                    crownKing();
-                    return;
-                }
-                else if(board[row+1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col - 2)){
-                    move(SelectedPiece.row, SelectedPiece.col, row, col);
-                    pieceJumped(row + 1, col + 1);
-                    teamTurn = 1;
-                    gameOver();
-                    crownKing();
-                    return;
+                if(SelectedPiece != null && SelectedPiece.team == 2){
+                    if(board[row][col] == null && (row == SelectedPiece.row - 1) && (col == SelectedPiece.col - 1 || col == SelectedPiece.col + 1)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        teamTurn = 1;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
+                    else if(board[row+1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col + 2)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        pieceJumped(row + 1, col - 1);
+                        teamTurn = 1;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
+                    else if(board[row+1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col - 2)){
+                        move(SelectedPiece.row, SelectedPiece.col, row, col);
+                        pieceJumped(row + 1, col + 1);
+                        teamTurn = 1;
+                        gameOver();
+                        crownKing();
+                        return;
+                    }
                 }
             }
         }
