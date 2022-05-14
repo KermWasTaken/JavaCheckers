@@ -14,9 +14,9 @@ public class Checkers extends JPanel {
         frame.setLayout(null);
         frame.setPreferredSize(new Dimension(1216,839));
         frame.setBackground(new Color(0,150,0));
-        Board board = new Board();  
-        frame.add(board);
-        board.setBounds(0,0,1217,840); 
+        Game game = new Game();  
+        frame.add(game);
+        game.setBounds(0,0,1217,840); 
         frame.pack();
         frame.setTitle("Checkers");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,8 +27,8 @@ public class Checkers extends JPanel {
         frame.setIconImage(image.getImage());
     }
 
-    private static class Board extends JPanel implements MouseListener {
-        Board(){
+    private static class Game extends JPanel implements MouseListener {
+        Game(){
             addMouseListener(this);
             setUp();
             repaint();
