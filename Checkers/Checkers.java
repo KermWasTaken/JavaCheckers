@@ -1,6 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.imageio.*;
+import java.awt.image.*;
+import java.io.*;
+import java.awt.geom.AffineTransform;
 
 public class Checkers extends JPanel {
 
@@ -8,10 +12,11 @@ public class Checkers extends JPanel {
 
         JFrame frame = new JFrame();
         frame.setLayout(null);
-        frame.setPreferredSize( new Dimension(816,839) );
+        frame.setPreferredSize(new Dimension(1216,839));
+        frame.setBackground(new Color(0,150,0));
         Board board = new Board();  
         frame.add(board);
-        board.setBounds(0,0,817,840); 
+        board.setBounds(0,0,1217,840); 
         frame.pack();
         frame.setTitle("Checkers");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,7 +28,7 @@ public class Checkers extends JPanel {
     }
 
     private static class Board extends JPanel implements MouseListener {
-        Board() {
+        Board(){
             addMouseListener(this);
             setUp();
             repaint();
@@ -34,6 +39,8 @@ public class Checkers extends JPanel {
         final int Width = 100;
         final int Height = 100;
         Piece[][] board = new Piece[8][8];
+        int redCaptured = 0;
+        int blackCaptured = 0;
         
         void squareClicked(int row, int col){
             SelectedPiece = board[row][col];
@@ -76,6 +83,14 @@ public class Checkers extends JPanel {
                     
                 }
             }
+            for(int i = 0; i < redCaptured; i++){
+                g2D.setColor(Color.RED);
+                g2D.fillOval(825 + Width * (i % 4), 25 + Height * (i / 4), Width/2, Height/2);
+            }
+            for(int i = 0; i < blackCaptured; i++){
+                g2D.setColor(Color.BLACK);
+                g2D.fillOval(825 + Width * (i % 4), 525 + Height * (i / 4), Width/2, Height/2);
+            }
             if(SelectedPiece != null){
                 g2D.setColor(Color.YELLOW);
                 g2D.draw3DRect(SelectedPiece.col*100, SelectedPiece.row*100, 99, 99, true);
@@ -117,8 +132,13 @@ public class Checkers extends JPanel {
         }
 
         void pieceJumped(int pieceRow, int pieceCol){
+            if(board[pieceRow][pieceCol].team == 1){
+                blackCaptured++;
+            }
+            if(board[pieceRow][pieceCol].team == 2){
+                redCaptured++;
+            }
             board[pieceRow][pieceCol] = null;
-
         }
 
         void crownKing(){
@@ -163,6 +183,9 @@ public class Checkers extends JPanel {
         public void mousePressed(MouseEvent evt) {
             int row = (evt.getY()/100);
             int col = (evt.getX()/100);
+            if(evt.getX() > 799){
+                return;
+            }
             if(board[row][col] != null && board[row][col].team == teamTurn){
                 squareClicked(row, col);
                 return;
