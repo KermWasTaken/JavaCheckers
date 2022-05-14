@@ -112,8 +112,8 @@ public class Checkers extends JPanel {
             repaint();
         }
 
-        void multiJump(int pieceRow, int pieceCol, int teamTurn, Boolean isKing){
-            
+        void multiJump(int row, int col){
+            SelectedPiece = board[row][col];
         }
 
         void pieceJumped(int pieceRow, int pieceCol){
@@ -178,6 +178,7 @@ public class Checkers extends JPanel {
                     else if(board[row-1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col + 2) && board[row-1][col - 1].team == 2){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row - 1, col - 1);
+                        multiJump(row, col);
                         teamTurn = 2;
                         gameOver();
                         return;
@@ -185,6 +186,7 @@ public class Checkers extends JPanel {
                     else if(board[row-1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col - 2 ) && board[row-1][col + 1].team == 2){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row - 1, col + 1);
+                        multiJump(row, col);
                         teamTurn = 2;
                         gameOver();
                         return;
@@ -198,6 +200,7 @@ public class Checkers extends JPanel {
                     else if(board[row+1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col + 2) && board[row + 1][col - 1].team == 2){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row + 1, col - 1);
+                        multiJump(row, col);
                         teamTurn = 2;
                         gameOver();
                         return;
@@ -205,6 +208,7 @@ public class Checkers extends JPanel {
                     else if(board[row+1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col - 2) && board[row+1][col + 1].team == 2){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row + 1, col + 1);
+                        multiJump(row, col);
                         teamTurn = 2;
                         gameOver();
                         return;
@@ -220,6 +224,7 @@ public class Checkers extends JPanel {
                     else if(board[row-1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col + 2)&& board[row - 1][col - 1].team == 1){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row - 1, col - 1);
+                        multiJump(row, col);
                         teamTurn = 1;
                         gameOver();
                         return;
@@ -227,6 +232,7 @@ public class Checkers extends JPanel {
                     else if(board[row-1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col - 2) && board[row - 1][col + 1].team == 1){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row - 1, col + 1);
+                        multiJump(row, col);
                         teamTurn = 1;
                         gameOver();
                         return;
@@ -240,6 +246,7 @@ public class Checkers extends JPanel {
                     else if(board[row+1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col + 2)&& board[row+1][col - 1].team == 1){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row + 1, col - 1);
+                        multiJump(row, col);
                         teamTurn = 1;
                         gameOver();
                         return;
@@ -247,6 +254,7 @@ public class Checkers extends JPanel {
                     else if(board[row+1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col - 2) && board[row+1][col + 1].team == 1){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row + 1, col + 1);
+                        multiJump(row, col);
                         teamTurn = 1;
                         gameOver();
                         return;
@@ -265,6 +273,7 @@ public class Checkers extends JPanel {
                     else if(col != 0 && board[row-1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col + 2) && board[row-1][col - 1].team == 2){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row - 1, col - 1);
+                        multiJump(row, col);
                         teamTurn = 2;
                         gameOver();
                         crownKing();
@@ -273,6 +282,7 @@ public class Checkers extends JPanel {
                     else if(board[row-1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col - 2) && board[row - 1][col + 1].team == 2){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row - 1, col + 1);
+                        multiJump(row, col);
                         teamTurn = 2;
                         gameOver();
                         crownKing();
@@ -290,6 +300,7 @@ public class Checkers extends JPanel {
                     else if(col != 0 && board[row+1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col + 2) && board[row+1][col - 1].team == 1){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row + 1, col - 1);
+                        multiJump(row, col);
                         teamTurn = 1;
                         gameOver();
                         crownKing();
@@ -298,6 +309,7 @@ public class Checkers extends JPanel {
                     else if(board[row+1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col - 2)&& board[row+1][col + 1].team == 1){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row + 1, col + 1);
+                        multiJump(row, col);
                         teamTurn = 1;
                         gameOver();
                         crownKing();
@@ -309,13 +321,13 @@ public class Checkers extends JPanel {
 
 
         public void mouseReleased(MouseEvent evt) { }
-        public void mouseClicked(MouseEvent evt) { }
+        public void mouseClicked(MouseEvent evt) { } 
         public void mouseEntered(MouseEvent evt) { }
         public void mouseExited(MouseEvent evt) { }
 
 
 
-    }
+
 
     public static class Piece {
         int team = 0;
@@ -331,4 +343,5 @@ public class Checkers extends JPanel {
         }
     }
 
+}
 }
