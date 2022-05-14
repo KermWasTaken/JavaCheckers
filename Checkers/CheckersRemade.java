@@ -125,12 +125,14 @@ public class CheckersRemade extends JPanel {
         List<checkerMove> legalJumps = new ArrayList<>();
         boolean doubleJump = false;
         
-        void squareClicked(int row, int col){
+        //determines what square has been clicked
+        void squareClicked(int row, int col){ 
             SelectedPiece = board[row][col];
             possibleMoves(SelectedPiece);
             repaint();
         }
 
+        //paints the board
         public void paintComponent(Graphics g) {
 
             Graphics2D g2D = (Graphics2D) g;
@@ -215,7 +217,7 @@ public class CheckersRemade extends JPanel {
             
         }
 
-        
+        //sets up the initial board for the start of the game
         public void setUp(){
 
             newGameButton.setEnabled(false);
@@ -242,6 +244,7 @@ public class CheckersRemade extends JPanel {
             }
         }
 
+        //removes a piece if it has been jumped
         void pieceJumped(int pieceRow, int pieceCol){
             if(board[pieceRow][pieceCol].team == 1){
                 blackCaptured++;
@@ -252,7 +255,7 @@ public class CheckersRemade extends JPanel {
             board[pieceRow][pieceCol] = null;
         }
 
-
+        //detects mouse presses and determines selectedPiece at the mouse press or moves the selectedPiece to the square if the move is legal
         public void mousePressed(MouseEvent evt) {
             int row = (evt.getY()/100);
             int col = (evt.getX()/100);
@@ -278,6 +281,7 @@ public class CheckersRemade extends JPanel {
 
         }
 
+        //moves the piece to its intended square
         void movePiece(int fromRow, int fromCol, int toRow, int toCol){
             SelectedPiece.row = toRow;
             SelectedPiece.col = toCol;
@@ -293,6 +297,7 @@ public class CheckersRemade extends JPanel {
             repaint();
         }
 
+        //performs a jump over a piece
         void jumpPiece(int fromRow, int fromCol, int toRow, int toCol){
             SelectedPiece.row = toRow;
             SelectedPiece.col = toCol;
@@ -317,6 +322,7 @@ public class CheckersRemade extends JPanel {
             }
         }
 
+        //checks if a piece has been crowned as a king
         void isKing(Piece selected){
             if(selected.isKing == true){
                 return;
@@ -329,6 +335,7 @@ public class CheckersRemade extends JPanel {
             }
         }
 
+        //ends the game if a team runs out of pieces
         void endGame(){
             boolean redWins = true;
             boolean blackWins = true;
@@ -371,6 +378,7 @@ public class CheckersRemade extends JPanel {
 
         }
 
+        //ends the game if the resign game button has been clicked
         void resignGame(){
             boolean redWins = false;
             boolean blackWins = false;
@@ -402,6 +410,7 @@ public class CheckersRemade extends JPanel {
             newGameButton.setEnabled(true);
         }
 
+        //saves stats at the end of the game to a txt file
         void saveStats(){
             BufferedReader reader;
             String allStats = "";
@@ -432,6 +441,7 @@ public class CheckersRemade extends JPanel {
             }
         }
 
+        //alternates turns after each move
         void switchTurn(){
             if(teamTurn == 2){
                 teamTurn = 1;
@@ -450,6 +460,7 @@ public class CheckersRemade extends JPanel {
         public void mouseEntered(MouseEvent evt) { }
         public void mouseExited(MouseEvent evt) { }
 
+        //finds possible moves for the selected piece and adds them to legalJumps or legalMoves
         public void possibleMoves(Piece selected){
             int row = selected.row;
             int col = selected.col;
@@ -536,6 +547,7 @@ public class CheckersRemade extends JPanel {
             }
         }
 
+        //checks to make sure that a jump can be completed and adds it to legalJumps
         public void checkSpot(int row, int col){
             if(row >= 0 && row <= 7 && col >= 0 && col <= 7){
                 if(board[row][col] == null)
