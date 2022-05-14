@@ -11,7 +11,7 @@ import java.io.*;
 import java.awt.geom.AffineTransform;
 import java.util.*;
 
-public class Checkers extends JPanel {
+public class CheckersRemade extends JPanel {
 
     public static void main(String[] args) {
 
