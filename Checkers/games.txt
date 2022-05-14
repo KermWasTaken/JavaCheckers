@@ -1,8 +1,1 @@
-Players: Z(Red), R(Black) | Winner: R | Number of Moves: 15
-Players: Zak(Red), Rhys(Black) | Winner: Rhys | Number of Moves: 1
-Players: Zak(Red), Michael(Black) | Winner: Michael | Number of Moves: 15
-Players: Zak'(Red), Rhys(Black) | Winner: Rhys | Number of Moves: 1
-Players: Zak(Red), Rhys(Black) | Winner: Rhys | Number of Moves: 1
-Players: Zak(Red), Rhys(Black) | Winner: Rhys | Number of Moves: 1
-Players: Zak(Red), Rhys(Black) | Winner: Rhys | Number of Moves: 15
-Players: Lee(Red), Rhys(Black) | Winner: Rhys | Number of Moves: 1
+Players: b(Red), a(Black) | Winner: b | Number of Moves: 2

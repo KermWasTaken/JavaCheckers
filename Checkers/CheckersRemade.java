@@ -11,11 +11,15 @@ import java.io.*;
 import java.awt.geom.AffineTransform;
 import java.util.*;
 import java.awt.Font;
+import java.awt.Desktop;
 
 public class CheckersRemade extends JPanel {
 
         private static JButton newGameButton;
+
+        private static JButton resignButton;
         
+        private static JButton statsButton;
 
         private static JLabel message;
 
@@ -29,10 +33,12 @@ public class CheckersRemade extends JPanel {
         frame.setLayout(null);
         frame.setPreferredSize(new Dimension(1216,839));
         frame.setBackground(new Color(255,255,255));
-        Game game = new Game();  
 
         newGameButton = new JButton("New Game");
-        newGameButton.setBounds(900, 450, 100, 60);
+
+        Game game = new Game();  
+
+        newGameButton.setBounds(860, 450, 140, 60);
         newGameButton.setBackground(Color.WHITE);
         newGameButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
@@ -49,9 +55,38 @@ public class CheckersRemade extends JPanel {
             }
         });
         frame.add(newGameButton);
+        resignButton = new JButton("Resign Game");
+        resignButton.setBounds(1000, 450, 140, 60);
+        resignButton.setBackground(Color.WHITE);
+        resignButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                game.resignGame();
+
+                game.teamTurn = 0;
+            }
+        });
+        frame.add(resignButton);
+        statsButton = new JButton("Show Previous Game Stats");
+        statsButton.setBounds(900, 300, 200, 60);
+        statsButton.setBackground(Color.WHITE);
+        statsButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                try{
+
+                File statsFile = new File("games.txt");
+                Desktop d = Desktop.getDesktop();
+                d.open(statsFile);
+                } catch(Exception evt){
+
+                    JOptionPane.showMessageDialog(statsButton, evt.getMessage());
+                }
+            }
+        });
+        frame.add(statsButton);
+
         message = new JLabel("Red's Turn", JLabel.CENTER);
         message.setFont(new Font("Serif", Font.BOLD, 25));
-        message.setBounds(900, 350, 210, 100);
+        message.setBounds(880, 350, 250, 100);
         message.setOpaque(false);
         frame.add(message);
 
@@ -184,32 +219,19 @@ public class CheckersRemade extends JPanel {
         
         public void setUp(){
 
+            newGameButton.setEnabled(false);
+
             JFrame frame = new JFrame();
 
             PlayerOneRed = JOptionPane.showInputDialog(frame, "Enter a name for player one (Red): " , null);
             PlayerOneBlack = JOptionPane.showInputDialog(frame, "Enter a name for player two (Black): " , null);
 
-            /*for (int row = 0; row < 8; row++) {
+            for (int row = 0; row < 8; row++) {
                 for (int col = 0; col < 8; col++) {
                     if ( row % 2 == col % 2 ) {
                         if (row < 3)
                             board[row][col] = new Piece(1, row, col, false);
                         else if (row > 4)
-                            board[row][col] = new Piece(2, row, col, false);
-                        else
-                            board[row][col] = null;
-                    }
-                    else {
-                        board[row][col] = null;
-                    }
-                }
-            }*/
-            for (int row = 0; row < 8; row++) {
-                for (int col = 0; col < 8; col++) {
-                    if ( row % 2 == col % 2 ) {
-                        if (row == 1 && col == 1)
-                            board[row][col] = new Piece(1, row, col, false);
-                        else if (row == 2 && col == 2)
                             board[row][col] = new Piece(2, row, col, false);
                         else
                             board[row][col] = null;
@@ -330,19 +352,55 @@ public class CheckersRemade extends JPanel {
             if(redWins == true){
                 message.setText("Red wins the game!");
                 
+                
                 gameWinner = PlayerOneRed;
 
                 saveStats();
+
+                newGameButton.setEnabled(true);
             }
             if(blackWins == true){
                message.setText("Black wins the game!");
+               
+
+               gameWinner = PlayerOneBlack;
+
+               saveStats();
+
+               newGameButton.setEnabled(true);
+            }
+
+        }
+
+        void resignGame(){
+            boolean redWins = false;
+            boolean blackWins = false;
+
+            if(teamTurn == 1){
+                redWins = true;
+            }
+            else if(teamTurn == 2){
+                blackWins = true;
+            }
+
+            if(redWins == true){
+                message.setText("Red wins the game!");
+                
+                
+                gameWinner = PlayerOneRed;
+
+                saveStats();
+                
+            }
+            if(blackWins == true){
+               message.setText("Black wins the game!");
+               
 
                gameWinner = PlayerOneBlack;
 
                saveStats();
             }
-
-
+            newGameButton.setEnabled(true);
         }
 
         void saveStats(){
