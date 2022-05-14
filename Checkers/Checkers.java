@@ -5,6 +5,8 @@ import javax.imageio.*;
 import java.awt.image.*;
 import java.io.*;
 import java.awt.geom.AffineTransform;
+import javax.swing.JoptionPane.*;
+import java.io.Serializable;
 
 public class Checkers extends JPanel {
 
@@ -25,22 +27,33 @@ public class Checkers extends JPanel {
         frame.setVisible(true);
         ImageIcon image = new ImageIcon("logo.jpg");
         frame.setIconImage(image.getImage());
+        
+        
     }
 
+    
+
     private static class Game extends JPanel implements MouseListener {
+        
         Game(){
             addMouseListener(this);
             setUp();
             repaint();
         }
 
+        String PlayerOneBlack = "";
+        String PlayerOneRed = "";
         Piece SelectedPiece = null;
         int teamTurn = 2;
         final int Width = 100;
         final int Height = 100;
-        Piece[][] board = new Piece[8][8];
+        transient Piece[][] board = new Piece[8][8];
         int redCaptured = 0;
         int blackCaptured = 0;
+        int totalMoves = 0;
+        public int gameWinner = 0;
+
+
         
         void squareClicked(int row, int col){
             SelectedPiece = board[row][col];
@@ -101,12 +114,32 @@ public class Checkers extends JPanel {
 
         
         void setUp(){
+            JFrame frame = new JFrame();
+
+            PlayerOneRed = JOptionPane.showInputDialog(frame, "Enter a name for player one (Red): " , null);
+            PlayerOneBlack = JOptionPane.showInputDialog(frame, "Enter a name for player two (Black): " , null);
+            /*
             for (int row = 0; row < 8; row++) {
                 for (int col = 0; col < 8; col++) {
                     if ( row % 2 == col % 2 ) {
                         if (row < 3)
                             board[row][col] = new Piece(1, row, col, false);
                         else if (row > 4)
+                            board[row][col] = new Piece(2, row, col, false);
+                        else
+                            board[row][col] = null;
+                    }
+                    else {
+                        board[row][col] = null;
+                    }
+                }
+            }*/
+            for (int row = 0; row < 8; row++) {
+                for (int col = 0; col < 8; col++) {
+                    if ( row % 2 == col % 2 ) {
+                        if (row == 1 && col == 1)
+                            board[row][col] = new Piece(1, row, col, false);
+                        else if (row == 2 && col == 2)
                             board[row][col] = new Piece(2, row, col, false);
                         else
                             board[row][col] = null;
@@ -124,11 +157,30 @@ public class Checkers extends JPanel {
             board[toRow][toCol] = SelectedPiece;
             board[fromRow][fromCol] = null;
             SelectedPiece = null;
+            totalMoves++;
             repaint();
         }
 
-        void multiJump(int row, int col){
-            SelectedPiece = board[row][col];
+        void multiJump(int row, int col){/*
+            if(board[row][col].isKing == true){
+                if(board[row][col].team == 1){
+                    if(board[row + 1][col - 1].team == 2 && board[row + 2][col - 2] == null || board[row + 1][col + 1].team == 2 && board[row + 2][col + 2] == null
+                    || board[row - 1][col - 1].team == 2 && board[row - 2][col - 2] == null || board[row - 1][col + 1].team == 2 && board[row - 2][col + 2] == null){
+                        SelectedPiece = board[row][col];
+                    }
+                }
+                else if(board[row][col].team == 2){
+
+                }
+            }
+            else if(board[row][col].isKing == false){
+                if(board[row][col].team == 1){
+
+                }
+                else if(board[row][col].team == 2){
+
+                }
+            }*/
         }
 
         void pieceJumped(int pieceRow, int pieceCol){
@@ -173,10 +225,12 @@ public class Checkers extends JPanel {
                 }
             }
             if(teamOneWin == true && teamTwoWin == false){
-                System.out.println("Team one wins");
+                System.out.println(PlayerOneBlack + " wins\n" + "Game won in " + totalMoves + " moves");
+                gameWinner = 1;
             }
             else if(teamTwoWin == true && teamOneWin == false){
-                System.out.println("Team two wins");
+                System.out.println(PlayerOneRed + " wins\n" + "Game won in " + totalMoves + " moves");
+                gameWinner = 2;
             }
         }
 
@@ -198,7 +252,7 @@ public class Checkers extends JPanel {
                         gameOver();
                         return;
                     }
-                    else if(board[row-1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col + 2) && board[row-1][col - 1].team == 2){
+                    else if(col != 0 && row != 0 && board[row-1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col + 2) && board[row-1][col - 1].team == 2){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row - 1, col - 1);
                         multiJump(row, col);
@@ -206,7 +260,7 @@ public class Checkers extends JPanel {
                         gameOver();
                         return;
                     }
-                    else if(board[row-1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col - 2 ) && board[row-1][col + 1].team == 2){
+                    else if(col != 7 && row != 0 && board[row-1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col - 2 ) && board[row-1][col + 1].team == 2){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row - 1, col + 1);
                         multiJump(row, col);
@@ -220,7 +274,7 @@ public class Checkers extends JPanel {
                         gameOver();
                         return;
                     }
-                    else if(board[row+1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col + 2) && board[row + 1][col - 1].team == 2){
+                    else if(col != 0 && row != 7 && board[row+1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col + 2) && board[row + 1][col - 1].team == 2){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row + 1, col - 1);
                         multiJump(row, col);
@@ -228,7 +282,7 @@ public class Checkers extends JPanel {
                         gameOver();
                         return;
                     }
-                    else if(board[row+1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col - 2) && board[row+1][col + 1].team == 2){
+                    else if(col != 7 && row != 7 && board[row+1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col - 2) && board[row+1][col + 1].team == 2){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row + 1, col + 1);
                         multiJump(row, col);
@@ -244,7 +298,7 @@ public class Checkers extends JPanel {
                         gameOver();
                         return;
                     }
-                    else if(board[row-1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col + 2)&& board[row - 1][col - 1].team == 1){
+                    else if(col != 0 && row != 0 && board[row-1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col + 2)&& board[row - 1][col - 1].team == 1){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row - 1, col - 1);
                         multiJump(row, col);
@@ -252,7 +306,7 @@ public class Checkers extends JPanel {
                         gameOver();
                         return;
                     }
-                    else if(board[row-1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col - 2) && board[row - 1][col + 1].team == 1){
+                    else if(col != 7 && row != 0 && board[row-1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col - 2) && board[row - 1][col + 1].team == 1){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row - 1, col + 1);
                         multiJump(row, col);
@@ -266,7 +320,7 @@ public class Checkers extends JPanel {
                         gameOver();
                         return;
                     }
-                    else if(board[row+1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col + 2)&& board[row+1][col - 1].team == 1){
+                    else if(col != 0 && row != 7 && board[row+1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col + 2)&& board[row+1][col - 1].team == 1){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row + 1, col - 1);
                         multiJump(row, col);
@@ -274,7 +328,7 @@ public class Checkers extends JPanel {
                         gameOver();
                         return;
                     }
-                    else if(board[row+1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col - 2) && board[row+1][col + 1].team == 1){
+                    else if(col != 7 && row != 7 && board[row+1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col - 2) && board[row+1][col + 1].team == 1){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row + 1, col + 1);
                         multiJump(row, col);
@@ -293,7 +347,7 @@ public class Checkers extends JPanel {
                         crownKing();
                         return;
                     }
-                    else if(col != 0 && board[row-1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col + 2) && board[row-1][col - 1].team == 2){
+                    else if(col != 0 && row != 0 && board[row-1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col + 2) && board[row-1][col - 1].team == 2){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row - 1, col - 1);
                         multiJump(row, col);
@@ -302,7 +356,7 @@ public class Checkers extends JPanel {
                         crownKing();
                         return;
                     }
-                    else if(board[row-1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col - 2) && board[row - 1][col + 1].team == 2){
+                    else if(col != 7 && row != 0 && board[row-1][col+1] != null && board[row][col] == null && (row == SelectedPiece.row + 2) && (col == SelectedPiece.col - 2) && board[row - 1][col + 1].team == 2){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row - 1, col + 1);
                         multiJump(row, col);
@@ -320,7 +374,7 @@ public class Checkers extends JPanel {
                         crownKing();
                         return;
                     }
-                    else if(col != 0 && board[row+1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col + 2) && board[row+1][col - 1].team == 1){
+                    else if(col != 0 && row != 7 && board[row+1][col-1] != null && board[row][col] == null && (row == SelectedPiece.row - 2) && (col == SelectedPiece.col + 2) && board[row+1][col - 1].team == 1){
                         move(SelectedPiece.row, SelectedPiece.col, row, col);
                         pieceJumped(row + 1, col - 1);
                         multiJump(row, col);
@@ -340,6 +394,7 @@ public class Checkers extends JPanel {
                     }
                 }
             }
+            
         }
 
 
@@ -349,7 +404,7 @@ public class Checkers extends JPanel {
         public void mouseExited(MouseEvent evt) { }
 
 
-
+        
 
 
     public static class Piece {
