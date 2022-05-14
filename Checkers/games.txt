@@ -1,1 +1,1 @@
-Players: b(Red), a(Black) | Winner: b | Number of Moves: 2
+Players: Rhys(Red), Zak(Black) | Winner: Rhys | Number of Moves: 52

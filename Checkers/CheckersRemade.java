@@ -128,7 +128,6 @@ public class CheckersRemade extends JPanel {
         void squareClicked(int row, int col){
             SelectedPiece = board[row][col];
             possibleMoves(SelectedPiece);
-            System.out.println("Row: " + row + " Col: " + col);
             repaint();
         }
 
@@ -421,7 +420,7 @@ public class CheckersRemade extends JPanel {
                 System.out.println("An error occured");
                 e.printStackTrace();
             }
-            allStats = allStats + "Players: " + PlayerOneBlack + "(Red), " + PlayerOneRed + "(Black) | Winner: " + gameWinner + " | Number of Moves: " + totalMoves;
+            allStats = allStats + "Players: " + PlayerOneRed + "(Red), " + PlayerOneBlack + "(Black) | Winner: " + gameWinner + " | Number of Moves: " + totalMoves;
 
             try {
                 FileWriter myWriter = new FileWriter("games.txt");
